@@ -1,24 +1,35 @@
 'use strict';
 
-var request = require('request');
-var Promise = require('bluebird');
-var config = require('../config/config.js');
-var _ = require('lodash');
+var mongoose = require('mongoose');
 var Movie = require('../models/movie.schema');
 
+var Promise = require('bluebird');
 
-//create Movie
+require('bluebird').promisifyAll(mongoose);
+// Mongoose model as a promise in your controller
+
 exports.createMovie = function(req, res) {
-    var movie = new Movie(req.body); 
-    console.log(movie.name);
     
-
-    // save the movie and check for errors
-    movie.save(function(err) {
-        if (err)
-            res.send(err);
-
-        res.json({ message: 'Movie created!' });
+    var movie = new Movie(req.body);
+    console.dir(movie.name);
+    movie.saveAsync().then(function() {
+        res.jsonp(movie);
+    }).catch(function(e) {
+        console.log(e);
+        return res.status(400).send({
+            message: e.errors.name.message
+        });
     });
 };
 
+exports.findMovies = function(req,res) {
+    Movie.find().exec(function(err, movies) {
+        if (err) {
+            return res.status(400).send({
+                message: err
+            })
+        } else {
+            res.jsonp(movies);
+        }
+    });
+}

@@ -7,5 +7,5 @@ var movie = require ('./movie.route');
 
 module.exports = function(app) {
 	//Schedule Job Path
-    app.use('/movies', movie);
+    app.use('/api/movies', movie);
 };

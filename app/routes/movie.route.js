@@ -6,6 +6,7 @@ var movies = require('../controllers/movie.controller');
 //Scheduler Routes
 
 router.route('/')
-	.get(movies.createMovie);
+	.post(movies.createMovie)
+	.get(movies.findMovies);
 
 module.exports = router;	
