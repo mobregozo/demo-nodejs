@@ -33,3 +33,15 @@ exports.findMovies = function(req,res) {
         }
     });
 }
+
+exports.findMoviesByName = function(req,res) {
+    Movie.find({name:req.params.movieName}).exec(function(err, movies) {
+        if (err) {
+            return res.status(400).send({
+                message: err
+            })
+        } else {
+            res.jsonp(movies);
+        }
+    });
+}

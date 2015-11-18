@@ -8,5 +8,7 @@ var movies = require('../controllers/movie.controller');
 router.route('/')
 	.post(movies.createMovie)
 	.get(movies.findMovies);
+router.route('/:movieName')
+	.get(movies.findMoviesByName);	
 
 module.exports = router;	
